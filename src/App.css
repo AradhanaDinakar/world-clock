@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 .bg-worldmap {
-  background-image: url("./Worldmap.jpg");
-  background-size: cover;
+  background-image: url("./Worldmap6.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
 }
 
