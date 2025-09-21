@@ -8,6 +8,11 @@ function App() {
   const [selectedContinent, setSelectedContinent] = useState("Asia");
   const [clocks, setClocks] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [is24Hour, setIs24Hour] = useState(true);
+
+  const toggleTimeFormat = () => {
+    setIs24Hour(!is24Hour);
+  };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -103,26 +108,60 @@ function App() {
   };
 
   return (
-    <div className={darkMode ? "dark min-h-screen" : "min-h-screen"}>
-      <div className="min-h-screen bg-[url('Worldmap.jpg')] bg-cover text-white dark:bg-gray-900 dark:text-gray-100">
+    <div className={`${darkMode ? "dark" : ""} min-h-screen`}>
+      <div
+        className={`absolute inset-0 bg-worldmap bg-cover transition-all duration-500 ${
+          darkMode ? "brightness-50" : "brightness-100"
+        }`}
+      ></div>
+
+      <div className="relative z-10 min-h-screen px-6">
         <div className="flex justify-end p-4">
           <button
             onClick={toggleDarkMode}
-            className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 dark:bg-yellow-400 dark:text-black transition"
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              darkMode
+                ? "bg-yellow-400 text-black hover:bg-yellow-500 "
+                : "bg-blue-500 text-white hover:bg-blue-600 "
+            }`}
           >
             {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
           </button>
+
+          <button
+            onClick={toggleTimeFormat}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              darkMode
+                ? "bg-green-400 text-black hover:bg-green-500"
+                : "bg-purple-500 text-white hover:bg-purple-600"
+            }`}
+          >
+            {is24Hour ? "🕒 Switch to 12 Hours" : "⏰ Switch to 24 Hours"}
+          </button>
         </div>
-        <h1 className="text-5xl font-serif text-white mb-6 text-center">
+
+        <h1
+          className={`text-5xl font-serif text-center mb-6 transition-colors duration-500 ${
+            darkMode ? "text-white" : "text-black"
+          }`}
+        >
           🌍 World Clock
         </h1>
 
         <div className="flex justify-center">
-          <div className="bg-white shadow-lg rounded-xl p-6 flex space-x-4 mb-6 w-full max-w-xl items-center">
+          <div
+            className={`shadow-lg rounded-xl p-6 flex space-x-4 mb-6 w-full max-w-xl items-center transition-colors duration-500 ${
+              darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+            }`}
+          >
             <select
               value={selectedContinent}
               onChange={(e) => setSelectedContinent(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition ${
+                darkMode
+                  ? "bg-gray-700 text-white border-gray-600"
+                  : "bg-white text-black border-gray-300"
+              }`}
             >
               {continents.map((cont, idx) => (
                 <option key={idx} value={cont}>
@@ -135,12 +174,20 @@ function App() {
               placeholder="Enter timezone (e.g. Kolkata)"
               value={cityInput}
               onChange={(e) => setCityInput(e.target.value)}
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ing-blue-400 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className={`flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition ${
+                darkMode
+                  ? "bg-gray-700 text-white border-gray-600"
+                  : "bg-white text-black border-gray-300"
+              }`}
             />
 
             <button
               onClick={handleAddCity}
-              className="bg-blue-500 hover:bg-blue-600 text-black font-semibold px-4 py-2 rounded-lg shadow-md trnsition dark:bg-yellow-400 dark:hover:bg-yellow-500 dark:text-black"
+              className={`px-4 py-2 rounded-lg shadow-md transition ${
+                darkMode
+                  ? "bg-yellow-400 hover:bg-yellow-500 text-black"
+                  : "bg-blue-500 hover:bg-blue-600 text-white"
+              }`}
             >
               Add Clock
             </button>
@@ -149,7 +196,12 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl">
           {clocks.map((city, idx) => (
-            <CityClock key={idx} city={city.name} timezone={city.timezone} />
+            <CityClock
+              key={idx}
+              city={city.name}
+              timezone={city.timezone}
+              is24Hour={is24Hour}
+            />
           ))}
         </div>
       </div>

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-worldmap {
+  background-image: url("./Worldmap.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+
 /*.app-background {
   min-height: 100vh;
   background-image: url('/Worldmap.jpg');  

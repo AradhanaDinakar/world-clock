@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import moment from "moment-timezone";
 import "./App.css";
 
-const CityClock = ({ city, timezone }) => {
-  const [time, setTime] = useState(moment().tz(timezone).format("HH:mm:ss"));
+const CityClock = ({ city, timezone, is24Hour }) => {
+  const [time, setTime] = useState(
+    moment()
+      .tz(timezone)
+      .format(is24Hour ? "HH:mm:ss" : "hh:mm:ss A")
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(moment().tz(timezone).format("HH:mm:ss"));
+      setTime(
+        moment()
+          .tz(timezone)
+          .format(is24Hour ? "HH:mm:ss" : "hh:mm:ss A")
+      );
     }, 1000);
     return () => clearInterval(interval);
-  }, [timezone]);
+  }, [timezone, is24Hour]);
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-4 flex flex-col items-center text-center hover:shadow-lg transition">
